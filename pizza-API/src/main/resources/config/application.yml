@@ -1,0 +1,20 @@
+# spring
+spring:
+  # profiles
+  profiles:
+    active: local
+# framework
+framework:
+  # swagger
+  swagger:
+    base-package: com.pizza.pizza-API.web.controller
+# log
+logging:
+  config: classpath:config/logback-spring.xml
+  level:
+    root: warn
+    com.pizza.pizza-API: info
+# mybatis plus
+mybatis-plus:
+  type-aliases-package: com.pizza.pizza-API.entity,com.pizza.pizza-API.model.*
+  mapper-locations: classpath:mappers/*Mapper.xml
