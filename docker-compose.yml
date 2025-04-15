@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: pizza_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root     # Cambia esto en producción
+      MYSQL_DATABASE: pizzeria
+      MYSQL_USER: pizza
+      MYSQL_PASSWORD: pizza
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql                 # Persistencia de datos
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Script inicial
+    networks:
+      - pizza_network
+
+volumes:
+  db_data:
+
+networks:
+  pizza_network:
+    driver: bridge
