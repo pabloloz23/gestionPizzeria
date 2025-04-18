@@ -2,16 +2,20 @@ package com.pizza.api.controllers;
 
 import com.pizza.core.dto.OrderRequest;
 import com.pizza.core.dto.OrderResponse;
+import com.pizza.api.services.interfaces.OrderManager;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/orders")
-@RequiredArgsConstructor
 public class OrderController {
+
     private final OrderManager orderManager;
+
+    public OrderController(OrderManager orderManager) {
+        this.orderManager = orderManager;
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -19,13 +23,13 @@ public class OrderController {
         return orderManager.createOrder(request);
     }
 
-    @GetMapping("/{id}")
-    public OrderResponse getOrder(@PathVariable Long id) {
-        return orderManager.getOrderById(id);
+    @GetMapping("/{orderId}")
+    public OrderResponse getOrder(@PathVariable Long orderId) {
+        return orderManager.getOrderById(orderId);
     }
 
-    @PatchMapping("/{id}/cancel")
-    public OrderResponse cancelOrder(@PathVariable Long id) {
-        return orderManager.cancelOrder(id);
+    @PatchMapping("/{orderId}/cancel")
+    public OrderResponse cancelOrder(@PathVariable Long orderId) {
+        return orderManager.cancelOrder(orderId);
     }
 }
