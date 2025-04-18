@@ -1,8 +1,7 @@
 package com.pizza.api.controllers;
 
 import com.pizza.api.services.PaymentProcessor;
-import com.pizza.core.dto.PaymentRequest;
-import com.pizza.core.dto.PaymentResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,13 +14,13 @@ public class PaymentController {
         this.paymentProcessor = paymentProcessor;
     }
 
-    @PostMapping("/process")
-    public PaymentResponse processPayment(@RequestBody PaymentRequest request) {
-        return paymentProcessor.processPayment(request);
-    }
-
-    @GetMapping("/status/{transactionId}")
-    public PaymentResponse checkPaymentStatus(@PathVariable String transactionId) {
-        return paymentProcessor.getPaymentStatus(transactionId);
+    @PostMapping("/{orderId}")
+    public ResponseEntity<String> processPayment(@PathVariable String orderId, @RequestParam double amount) {
+        boolean success = paymentProcessor.processPayment(orderId, amount);
+        if (success) {
+            return ResponseEntity.ok("Pago procesado con éxito");
+        } else {
+            return ResponseEntity.status(500).body("Error al procesar el pago");
+        }
     }
 }
