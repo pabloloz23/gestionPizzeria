@@ -1,36 +1,36 @@
 package com.pizza.core.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+    import jakarta.persistence.*;
+    import lombok.Getter;
+    import lombok.Setter;
 
-import java.time.LocalDateTime;
 
-// User.java
-@Entity
-@Table(name = "users")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    import java.util.Set;
+    import java.util.HashSet;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @Entity
+    @Getter
+    @Setter
+    @Table(name = "usuarios")
+    public class User {
 
-    @Column(nullable = false)
-    private String password;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String email;
+        @Column(unique = true, nullable = false)
+        private String username;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-}
+        @Column(nullable = false)
+        private String password;
+
+        @Column(nullable = false)
+        private String nombre;
+
+        @Column(unique = true)
+        private String email;
+
+        @ElementCollection(fetch = FetchType.EAGER)
+        @Enumerated(EnumType.STRING)
+        private Set<Role> roles = new HashSet<>();
+    }
