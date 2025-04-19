@@ -19,10 +19,10 @@ package com.pizza.core.config;
                     .setFieldMatchingEnabled(true)
                     .setFieldAccessLevel(AccessLevel.PRIVATE);
 
-            // Configuración personalizada para OrderResponse
+            // Configuración personalizada para OrderResponse con verificación null
             mapper.createTypeMap(Order.class, OrderResponse.class)
                     .addMapping(Order::getId, OrderResponse::setOrderId)
-                    .addMapping(src -> src.getStatus().name(), OrderResponse::setStatus);
+                    .addMapping(src -> src.getStatus() != null ? src.getStatus().name() : null, OrderResponse::setStatus);
 
             return mapper;
         }
